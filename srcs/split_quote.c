@@ -113,8 +113,8 @@ char	**ft_split_quote(char const *s, char c)
 	if (!arr)
 		return (NULL);
 	ft_assign_arr(arr, (char *)s, c);
-	if (!arr)
-		return (NULL);
+	// if (!arr)
+	// 	return (NULL);
 	arr[n_subset] = NULL;
 	return (arr);
 }

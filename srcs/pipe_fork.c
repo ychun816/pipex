@@ -45,6 +45,7 @@ void	do_pipe(char *cmd, char *envp[])
 		close(fd[1]);// Close the write end after redirect
 		if (execute_cmds(cmd, envp) < 0)
 			perror_exit(ERR_CMD, 6); //exit(6);// OR print error //perr_cmd(char *pathname, int err_n)
+<<<<<<< HEAD
 	}
 	else // Parent process
 	{
@@ -53,6 +54,20 @@ void	do_pipe(char *cmd, char *envp[])
 		close(fd[0]);// Close the read end after redirect
 		waitpid(pid, NULL, 0);// Wait for the child process to finish
 	}	
+=======
+			exit(1);//error condocting cmd
+		}
+	}
+	else// Parent process
+	{
+		//parent process
+		close(fd[1]);// Close the write end of the pipe in the parent
+		dup2(fd[0], STDIN);// Redirect STDIN to the read end of the pipe
+		close(fd[0]);// Close the read end after redirect
+
+		waitpid(pid, NULL, 0);// Wait for the child process to finish
+	}
+>>>>>>> cb3bbf04db4635dee31c3e2718d5f992fb9eaab8
 }
 
 /** DO FORK MAIN
@@ -75,10 +90,18 @@ void	do_fork_main(char *cmd, char *envp[])
 		if (execute_cmds(cmd, envp) < 0)
 			perror_exit(ERR_CMD, 6);
 	}
+<<<<<<< HEAD
 	else //parent process
 	{
 		close (STDIN);// Close the parent's STDIN
 		close (STDOUT);// Close the parent's STDOUT
 		waitpid(pid, NULL, 0);//Optionally wait for the child to finish
+=======
+	else// Parent process
+	{
+		waitpid(pid, NULL, 0);// Wait for the child process to finish
+		close (STDIN);// Close the parent's STDIN
+		close (STDOUT);// Close the parent's STDOUT
+>>>>>>> cb3bbf04db4635dee31c3e2718d5f992fb9eaab8
 	}
 }

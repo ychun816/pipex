@@ -72,15 +72,28 @@ char	*get_execute_path(char *file, char *envp[])
 		valid_path = ft_strjoin(all_seppaths[i], "/");
 		all_seppaths[i] = NULL;//is it neccessary?
 		execute_path = ft_strjoin(valid_path, file);
+<<<<<<< HEAD
+=======
+		free(valid_path); // Free valid_path after using it. //free_strs(all_seppaths);
+>>>>>>> cb3bbf04db4635dee31c3e2718d5f992fb9eaab8
 		if (!access(execute_path, X_OK | F_OK))
 		{
 			free_strs(all_seppaths); // Free all_seppaths only once here.
 			return (execute_path);   // Return execute_path directly.
+<<<<<<< HEAD
+=======
+			// free(valid_path);
+			// return (ft_strdup(file));
+>>>>>>> cb3bbf04db4635dee31c3e2718d5f992fb9eaab8
 		}
 		free(execute_path);
 		execute_path = NULL;//do i need to set to NULL here?	
 	}
+<<<<<<< HEAD
 	free_strs(all_seppaths);//If no valid executable was found, free the array of paths and return a copy of the file
+=======
+	free_strs(all_seppaths);// Free outside the loop after usage.
+>>>>>>> cb3bbf04db4635dee31c3e2718d5f992fb9eaab8
 	return (ft_strdup(file));
 }
 
