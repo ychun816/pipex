@@ -6,13 +6,15 @@
 /*   By: yilin <yilin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 14:29:59 by yilin             #+#    #+#             */
-/*   Updated: 2024/09/22 19:40:18 by yilin            ###   ########.fr       */
+/*   Updated: 2024/09/24 16:52:10 by yilin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-// free strs
+/** free strs
+ * @note !! Remember to set NULL to pointer, Otherwise weird behavior
+*/
 void	free_strs(char **strs)
 {
 	int	i;
@@ -22,16 +24,23 @@ void	free_strs(char **strs)
 		return ;
 	while (strs[i])
 	{
-		free(strs[i]);
+		if (strs[i] == NULL)
+		{
+			free(strs[i]);
+			strs[i] = NULL;
+		}
 		i++;
 	}
 	free(strs);
 }
 
-//perror n exit
+/** perror n exit
+ * 
+ * */
 void	perror_exit(char *err_message, int err_n)
 {
-	perror(err_message);
+	// perror(err_message);
+	ft_putstr_fd(err_message, STDERR_FILENO);
 	exit(err_n);
 }
 
@@ -42,5 +51,3 @@ void	perror_exit(char *err_message, int err_n)
 // 	dup2(fd, new_fd);
 // 	close(fd);
 // }
-
-//split quote? 

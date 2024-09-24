@@ -6,7 +6,7 @@
 /*   By: yilin <yilin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 16:14:46 by yilin             #+#    #+#             */
-/*   Updated: 2024/08/19 16:57:45 by yilin            ###   ########.fr       */
+/*   Updated: 2024/09/24 18:17:30 by yilin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[++i])
 		joint_str[j++] = s2[i];
 	joint_str[j] = '\0';
-	free(s1);
+	// free(s1);
 	return (joint_str);
 }

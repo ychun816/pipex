@@ -6,7 +6,7 @@
 /*   By: yilin <yilin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:15:32 by yilin             #+#    #+#             */
-/*   Updated: 2024/09/22 18:27:59 by yilin            ###   ########.fr       */
+/*   Updated: 2024/09/24 16:33:50 by yilin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,12 @@ void	perr_ac(int ac)
 	ft_printf("%s: NOT ENOUGH ARGS! ONLY %d ARGS GIVEN.\n", "pipex", ac - 1);
 	exit(1);		
 }
-
+// void	perr_ac(int ac)
+// {
+// 	// dup2(STDERR, STDOUT);
+// 	ft_putstr_fd("Wrong Number of Args\n", STDERR_FILENO);
+// 	exit(1);		
+// }
 //perror_pipe
 void	perr_pipe(int err_n)
 {

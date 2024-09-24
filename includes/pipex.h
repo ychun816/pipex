@@ -18,13 +18,12 @@
 # define STDOUT STDOUT_FILENO
 # define STDIN STDIN_FILENO
 # define STDERR STDERR_FILENO
-# define ERR_AC "ERROR: NOT ENOUGH ARGS"
-# define ERR_PIPE "ERROR: PIPE FAIL"
-# define ERR_OPEN "ERROR: OPEN FAIL"
-# define ERR_FORK "ERROR: FORK FAIL"
-# define ERR_WRITE "ERROR: WRITE FAIL"
-# define ERR_CMD "ERROR: COMMAND FAIL"
-// # define P_NAME "pipex"
+# define ERR_AC "ERROR: WRONG NUMBER OF ARGS\n"
+# define ERR_PIPE "ERROR: PIPE FAIL\n"
+# define ERR_OPEN "ERROR: OPEN FAIL\n"
+# define ERR_FORK "ERROR: FORK FAIL\n"
+# define ERR_WRITE "ERROR: WRITE FAIL\n"
+# define ERR_CMD "ERROR: COMMAND FAIL\n"
 
 /* ************************************************************************** */
 /*                                FUNCTIONS                                   */
@@ -55,12 +54,11 @@ char	**get_all_seppaths(char *envp[]);
 char	*get_execute_path(char *file, char *envp[]);
 int	execute_cmds(char *av, char *envp[]);
 /*helper*/
-void	free_strs(char **strs);
-void	dup_n_close(int fd, int new_fd);
-
-
 void	perror_exit(char *err_message, int err_n);
-char	**ft_split_quote(char const *s, char c);
+void	free_strs(char **strs);
+// void	dup_n_close(int fd, int new_fd);
+
+// char	**ft_split_quote(char const *s, char c);
 /*print error*/
 // void	perr_ac(int ac);
 // void	perr_pipe(int err_n);

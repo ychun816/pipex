@@ -6,7 +6,7 @@
 #    By: yilin <yilin@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 14:47:59 by yilin             #+#    #+#              #
-#    Updated: 2024/09/22 18:51:01 by yilin            ###   ########.fr        #
+#    Updated: 2024/09/24 17:15:59 by yilin            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,8 +29,8 @@ LIBFT_DIR = libft
 #                              SRC & OBJ FILES                                 #
 # **************************************************************************** #
 
-SRCS = $(addprefix $(SRCS_DIR)/, check.c execute.c helper.c main.c pipe_fork.c split.c)
-
+SRCS = $(addprefix $(SRCS_DIR)/, check.c execute.c helper.c main.c pipe_fork.c) 
+#split_quote.c
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 # **************************************************************************** #

@@ -6,7 +6,7 @@
 /*   By: yilin <yilin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 17:19:05 by yilin             #+#    #+#             */
-/*   Updated: 2024/09/22 19:03:45 by yilin            ###   ########.fr       */
+/*   Updated: 2024/09/24 17:04:11 by yilin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	**get_all_seppaths(char *envp[])
 	i = 0;
 	while (ft_strnstr(envp[i], "PATH=", 5) == 0)
 		i++;
-	sep_paths = ft_split( envp[i] + 5, ':');
+	sep_paths = ft_split(envp[i] + 5, ':');
 	if (!sep_paths)
 		return (NULL);
 	return (sep_paths);
@@ -66,21 +66,21 @@ char	*get_execute_path(char *file, char *envp[])
 	all_seppaths = get_all_seppaths(envp);
 	if (!all_seppaths)
 		return (ft_strdup(file));
-	i = 0;
-	while (all_seppaths[i])
+	i = -1;
+	while (all_seppaths[++i])
 	{
 		valid_path = ft_strjoin(all_seppaths[i], "/");
+		all_seppaths[i] = NULL;//is it neccessary?
 		execute_path = ft_strjoin(valid_path, file);
-		free_strs(all_seppaths);
 		if (!access(execute_path, X_OK | F_OK))
 		{
-			free(valid_path);
-			return (ft_strdup(file));
+			free_strs(all_seppaths); // Free all_seppaths only once here.
+			return (execute_path);   // Return execute_path directly.
 		}
 		free(execute_path);
-		i++;		
+		execute_path = NULL;//do i need to set to NULL here?	
 	}
-	free_strs(all_seppaths);
+	free_strs(all_seppaths);//If no valid executable was found, free the array of paths and return a copy of the file
 	return (ft_strdup(file));
 }
 
@@ -111,7 +111,8 @@ int	execute_cmds(char *av, char *envp[])
 	char	**cmds;
 	char	*execute_path;
 
-	cmds = ft_split_quote(av, ' '); //cmds = ft_split(av, ' ');
+	// cmds = ft_split_quote(av, ' '); //cmds = ft_split(av, ' ');
+	cmds = ft_split(av, ' ');
 	if (!cmds)
 		return (-1);
 	if (cmds[0] == NULL)
@@ -123,13 +124,14 @@ int	execute_cmds(char *av, char *envp[])
 		free_strs(cmds);
 		return (-1);
 	}
-	if (execve(execute_path, &av, envp) == -1)
+	if (execve(execute_path, cmds, envp) == -1)// if (execve(execute_path, &av, envp) == -1)
 	{
 		perror_exit(ERR_CMD, 6); //perr_cmd(execute_path, errno);
 		free_strs(cmds);
 		free(execute_path);
 		return (-1);
 	}
+	// Free allocated memory (but only once, in the parent)
 	free_strs(cmds);
 	free(execute_path);
 	return (0);

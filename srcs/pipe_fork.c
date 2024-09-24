@@ -6,7 +6,7 @@
 /*   By: yilin <yilin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:15:37 by yilin             #+#    #+#             */
-/*   Updated: 2024/09/22 19:06:36 by yilin            ###   ########.fr       */
+/*   Updated: 2024/09/24 15:07:55 by yilin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,23 @@ void	do_pipe(char *cmd, char *envp[])
 	if (pipe(fd) == -1)
 		perror_exit(ERR_PIPE, 2); //perr_pipe(errno);
 	pid = fork();
-	if (fork() == -1)
+	if (pid == -1)
 		perror_exit(ERR_FORK, 4); //perr_fork(errno);
-	if (pid == 0)//!pid
+	if (pid == 0)//!pid //child process
 	{
-		close(fd[0]);
-		dup2(fd[1], STDOUT);// dup_n_close(fd[1], STDOUT);
-		close(fd[1]);
+		close(fd[0]);// Close the read end of the pipe in the child
+		dup2(fd[1], STDOUT);// Redirect STDOUT to the write end of the pipe
+		close(fd[1]);// Close the write end after redirect
 		if (execute_cmds(cmd, envp) < 0)
-		{
 			perror_exit(ERR_CMD, 6); //exit(6);// OR print error //perr_cmd(char *pathname, int err_n)
-			exit(1);//error condocting cmd
-		}
-			
 	}
-	close(fd[1]);
-	dup2(fd[0], STDIN);// dup_n_close(fd[0], STDIN);
-	close(fd[0]);
+	else // Parent process
+	{
+		close(fd[1]);// Close the write end of the pipe in the parent
+		dup2(fd[0], STDIN);// Redirect STDIN to the read end of the pipe		
+		close(fd[0]);// Close the read end after redirect
+		waitpid(pid, NULL, 0);// Wait for the child process to finish
+	}	
 }
 
 /** DO FORK MAIN
@@ -70,15 +70,15 @@ void	do_fork_main(char *cmd, char *envp[])
 	pid = fork();
 	if (pid == -1)
 		perror_exit(ERR_FORK, 4); //perr_fork(errno);
-	if (pid == 0)
+	if (pid == 0)// Child process
 	{
 		if (execute_cmds(cmd, envp) < 0)
-		{
-			// exit(6); //OR print error //perr_cmd(char *pathname, int err_n)
 			perror_exit(ERR_CMD, 6);
-			exit(1);
-		}
 	}
-	close (STDIN);
-	close (STDOUT);
+	else //parent process
+	{
+		close (STDIN);// Close the parent's STDIN
+		close (STDOUT);// Close the parent's STDOUT
+		waitpid(pid, NULL, 0);//Optionally wait for the child to finish
+	}
 }
